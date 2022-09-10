@@ -7,6 +7,7 @@ const verifyToken = (req, res, next) => {
   token = token.split(" ")[1];
   if (token) {
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(decodedToken)
     req.user = decodedToken.id;
     next();
   } else {
@@ -20,6 +21,7 @@ const isAdmin = (req, res, next) => {
 
   if (token) {
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(decodedToken);
     if (decodedToken.role !== "admin") {
       return res.status(403).json({ error: "Admin resource! Access denied!" });
     }
