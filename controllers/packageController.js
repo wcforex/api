@@ -2,31 +2,32 @@ const Package = require('../models/Package')
 
 const getPackages = async (req, res) => {
     const packages = await Package.find();
-    res.status(200).json({ error:null, packages })
+    res.status(200).json({ error: null, packages })
 }
 
 const getPackage = async (req, res) => {
     const id = req.params.id;
     const package = await Package.findById(id)
-    res.status(200).json({package})
+    res.status(200).json({ package })
 }
 
 const createPackage = async (req, res) => {
+    const { name, maxDeposite, minDeposite, duration, interestRatePerDay, interestRatePerWeek, interestRatePerMonth, interestRate, status } = req.body;
     try {
-        const {name, maxDeposite, minDeposite, duration, interestRatePerDay, interestRatePerWeek, interestRatePerMonth, interestRate, status} = req.body;
+        
         const package = await Package.create({
-            name, 
-            maxDeposite, 
-            minDeposite, 
+            name,
+            maxDeposite,
+            minDeposite,
             duration,
-            interestRatePerDay, 
-            interestRatePerWeek, 
-            interestRatePerMonth, 
-            interestRate, 
+            interestRatePerDay,
+            interestRatePerWeek,
+            interestRatePerMonth,
+            interestRate,
             status
         });
         if (package) {
-            res.status(201).json({error: null, data: package})
+            res.status(201).json({ error: null, data: package })
         }
     } catch (error) {
         console.log(error)
@@ -36,11 +37,11 @@ const createPackage = async (req, res) => {
 const updatePackage = async (req, res) => {
     try {
         const id = req.params.id;
-        const package = await Package.findByIdAndUpdate(id, req.body, {new:true})
+        const package = await Package.findByIdAndUpdate(id, req.body, { new: true })
         res.status(200).json({ package })
     } catch (error) {
         console.log(error)
-    } 
+    }
 }
 
 const deletePackage = async (req, res) => {
@@ -50,7 +51,7 @@ const deletePackage = async (req, res) => {
         res.status(200).json({ error: null, msg: 'Package deleted successfully' })
     } catch (error) {
         console.log(error)
-    } 
+    }
 }
 
-module.exports = {getPackages, getPackage, createPackage, updatePackage,deletePackage }
+module.exports = { getPackages, getPackage, createPackage, updatePackage, deletePackage }
