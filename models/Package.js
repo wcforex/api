@@ -24,7 +24,6 @@ const packageSchema = new Schema({
     },
     interestRatePerWeek: {
         type: Number,
-        required: true,
     },
     interestRatePerMonth: {
         type: Number,
