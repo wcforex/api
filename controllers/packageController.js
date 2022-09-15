@@ -2,7 +2,7 @@ const Package = require('../models/Package')
 
 const getPackages = async (req, res) => {
     const packages = await Package.find();
-    res.status(200).json({ error: null, packages })
+    res.status(200).json({ packages })
 }
 
 const getPackage = async (req, res) => {
@@ -14,7 +14,7 @@ const getPackage = async (req, res) => {
 const createPackage = async (req, res) => {
     const { name, maxDeposite, minDeposite, duration, interestRatePerDay, interestRatePerWeek, interestRatePerMonth, interestRate, status } = req.body;
     try {
-        
+
         const package = await Package.create({
             name,
             maxDeposite,
@@ -27,7 +27,7 @@ const createPackage = async (req, res) => {
             status
         });
         if (package) {
-            res.status(201).json({ error: null, data: package })
+            res.status(201).json({ package })
         }
     } catch (error) {
         console.log(error)
@@ -48,7 +48,7 @@ const deletePackage = async (req, res) => {
     try {
         const id = req.params.id;
         await Package.findByIdAndDelete(id)
-        res.status(200).json({ error: null, msg: 'Package deleted successfully' })
+        res.status(200).json({ message: 'Package deleted successfully' })
     } catch (error) {
         console.log(error)
     }

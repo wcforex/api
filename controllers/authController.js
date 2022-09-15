@@ -22,7 +22,7 @@ const register = async (req, res, next) => {
       });
 
       // if (user) {
-      res.status(201).json({ error: null, data: user })
+      res.status(201).json({ user })
       // }
     }
   } catch (err) {
@@ -65,7 +65,7 @@ const refreshToken = (req, res) => {
       res.json({ accesstoken });
     });
   } catch (err) {
-    return res.status(500).json({ msg: err.message });
+    return res.status(500).json({ message: err.message });
   }
 };
 
@@ -74,7 +74,7 @@ const logout = async (req, res) => {
     res.clearCookie("refreshtoken", { path: "/auth/refresh_token" });
     return res.json({ msg: "Logged out" });
   } catch (err) {
-    return res.status(500).json({ msg: err.message });
+    return res.status(500).json({ message: err.message });
   }
 };
 
