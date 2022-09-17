@@ -1,4 +1,4 @@
-const {model, Schema} = require("mongoose")
+const { model, Schema } = require("mongoose")
 
 const userSchema = Schema({
     firstName: {
@@ -30,6 +30,13 @@ const userSchema = Schema({
         type: String,
         required: true
     },
+    wallet: {
+        type: Number,
+    },
+    history: {
+        type: Array,
+        default: []
+    },
     orders: {
         type: Array,
         default: []
@@ -40,6 +47,6 @@ const userSchema = Schema({
         default: 'client',
         required: true
     }
-}, {timestamps: true})
+}, { timestamps: true })
 
 module.exports = model('User', userSchema)

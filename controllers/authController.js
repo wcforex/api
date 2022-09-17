@@ -34,11 +34,11 @@ const login = async (req, res, next) => {
   try {
     const user = await User.findOne({ email })
     if (!user) {
-      res.status(400).json({ msg: 'Invalide Credenntials' })
+      res.status(400).json({ message: 'Invalide Credenntials' })
     }
     const isMatch = await bcrypt.compare(password, user.password)
     if (!isMatch) {
-      res.status(400).json({ msg: 'Invalide Credenntials' })
+      res.status(400).json({ message: 'Invalide Credenntials' })
     }
     const accessToken = jwt.sign({ id: user._id, role: user.role, email: user.email }, process.env.JWT_SECRET, { expiresIn: "12h" });
     const refreshToken = jwt.sign({ id: user._id, role: user.role, email: user.email }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "336h" });
