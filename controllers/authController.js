@@ -7,7 +7,7 @@ const register = async (req, res, next) => {
   try {
     const emailExist = await User.findOne({ email })
     if (emailExist) {
-      res.status(400).json({ error: 'Email already exist.' })
+      res.status(400).json({ message: 'Email already exist.' })
     } else {
       const hashedPassword = await bcrypt.hash(password, 12)
 
@@ -21,12 +21,10 @@ const register = async (req, res, next) => {
         role: isAdmin && 'admin'
       });
 
-      // if (user) {
       res.status(201).json({ user })
-      // }
     }
   } catch (err) {
-    res.status(400).json({ error: err, data: null })
+    res.status(400).json(err)
     // console.log(error)
   }
 };
