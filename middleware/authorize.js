@@ -7,7 +7,7 @@ const verifyToken = (req, res, next) => {
   token = token.split(" ")[1];
   if (token) {
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decodedToken)
+    // console.log(decodedToken)
     req.user = decodedToken.id;
     next();
   } else {
@@ -21,7 +21,7 @@ const isAdmin = (req, res, next) => {
 
   if (token) {
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decodedToken);
+    // console.log(decodedToken);
     if (decodedToken.role !== "admin") {
       return res.status(403).json({ error: "Admin resource! Access denied!" });
     }
@@ -31,7 +31,7 @@ const isAdmin = (req, res, next) => {
 
 const refreshToken = (req, res) => {
   try {
-    const rf_token = req.cookies.refreshtoken;
+    const rf_token = req.body.refreshtoken;
     if (!rf_token)
       return res.status(400).json({ msg: "Please Login or Register" });
 

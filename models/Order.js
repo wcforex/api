@@ -1,37 +1,35 @@
-const {model, Schema} = require("mongoose")
+const { model, Schema } = require("mongoose")
 
 const orderSchema = new Schema({
     userId: {
-        type: Schema.Types.ObjectId,
-        ref: "User",
+        type: String,
         required: true
     },
     packageId: {
-        type: Schema.Types.ObjectId,
-        ref: "Package",
+        type: String,
         required: true
     },
-    deposit: {
+    invested: {
         type: Number,
         required: true,
     },
-    incomePerDay: {
+    dailyReturn: {
         type: Number,
     },
-    incomePerWeek: {
-        type: Number, 
+    earned: {
+        type: Number,
     },
-    incomePerMonth: {
+    profit: {
         type: Number,
     },
     totalReturn: {
-        type: Number, 
+        type: Number,
     },
     state: {
         type: String,
         enum: ['pending', 'open', 'closed'],
         default: 'pending',
     }
-}, {timestamps: true})
+}, { timestamps: true })
 
 module.exports = model("Order", orderSchema)
