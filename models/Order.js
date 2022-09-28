@@ -28,7 +28,7 @@ const orderSchema = new Schema({
     },
     state: {
         type: String,
-        enum: ['waiting deposit', 'open','fully paid', 'closed'],
+        enum: ['waiting deposit', 'open','cancelled', 'closed'],
         default: 'waiting deposit',
     }
 }, { timestamps: true })
