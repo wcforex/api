@@ -14,7 +14,7 @@ const getOrder = async (req, res) => {
 }
 
 const createOrder = async (req, res, next) => {
-    const { userId, packageId, deposit, incomePerDay, incomePerWeek, incomePerMonth, totalReturn, state } = req.body;
+    const { userId, packageId, paymentMethod, amount, dailyReturn, profit, totalReturn, duration } = req.body;
     try {
         //get user
         const user = await User.findById(userId)
@@ -27,12 +27,12 @@ const createOrder = async (req, res, next) => {
         const order = await Order.create({
             userId,
             packageId,
-            deposit,
-            incomePerDay,
-            incomePerWeek,
-            incomePerMonth,
+            paymentMethod,
+            amount,
+            dailyReturn,
+            duration,
             totalReturn,
-            state
+            profit,
         });
 
         if (order) {

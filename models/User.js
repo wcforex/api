@@ -34,7 +34,7 @@ const userSchema = Schema({
         type: Number,
         default: 0,
     },
-    history: {
+    withdrawals: {
         type: Array,
         default: []
     },

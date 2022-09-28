@@ -9,14 +9,12 @@ const orderSchema = new Schema({
         type: String,
         required: true
     },
-    invested: {
+    paymentMethod: { type: String, required: true },
+    amount: {
         type: Number,
         required: true,
     },
     dailyReturn: {
-        type: Number,
-    },
-    earned: {
         type: Number,
     },
     profit: {
@@ -25,10 +23,13 @@ const orderSchema = new Schema({
     totalReturn: {
         type: Number,
     },
+    duration: {
+        type: Number,
+    },
     state: {
         type: String,
-        enum: ['pending', 'open', 'closed'],
-        default: 'pending',
+        enum: ['waiting deposit', 'open','fully paid', 'closed'],
+        default: 'waiting deposit',
     }
 }, { timestamps: true })
 
