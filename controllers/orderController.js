@@ -7,10 +7,10 @@ const getOrders = async (req, res) => {
     res.status(200).json({ orders })
 }
 
-const getOrder = async (req, res) => {
-    const id = req.params.id;
-    const order = await Order.findById(id).populate('userId', 'firstName', 'lastName').populate('packageId', 'name')
-    res.status(200).json({ order })
+const getOrderByUser = async (req, res) => {
+    const userId = req.params.userId;
+    const orders = await Order.find({ userId })
+    res.status(200).json({ orders })
 }
 
 const createOrder = async (req, res, next) => {
@@ -64,4 +64,4 @@ const deleteOrder = async (req, res) => {
     }
 }
 
-module.exports = { getOrders, getOrder, createOrder, updateOrder, deleteOrder }
+module.exports = { getOrders, getOrderByUser, createOrder, updateOrder, deleteOrder }
