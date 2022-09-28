@@ -8,7 +8,7 @@ const withdrawalSchema = new Schema({
     account: { type: String, required: true },
     status: {
         type: String,
-        enum: ['paid', 'failed', 'pending'],
+        enum: ['paid', 'failed', 'pending', 'cancelled'],
         default: 'pending'
     },
 }, { timestamps: true })
