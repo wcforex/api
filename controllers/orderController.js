@@ -51,7 +51,7 @@ const updateOrder = async (req, res) => {
         if (order.state === 'open') {
             const user = await User.findById(order.userId)
             let total = user.invested + order.amount
-            const invested = await User.findByIdAndUpdate({ id: order.userId }, { invested: total }, { new: true })
+            const invested = await User.findByIdAndUpdate(order.userId, { invested: total }, { new: true })
             res.status(200).json({ order, invested: invested.invested })
         } else {
             res.status(200).json({ order })
