@@ -41,6 +41,10 @@ const userSchema = Schema({
         type: Number,
         default: 0,
     },
+    invested: {
+        type: Number,
+        default: 0,
+    },
     withdrawals: {
         type: Array,
         default: []

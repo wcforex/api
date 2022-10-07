@@ -48,7 +48,14 @@ const updateOrder = async (req, res) => {
     try {
         const id = req.params.id;
         const order = await Order.findByIdAndUpdate(id, req.body, { new: true })
-        res.status(200).json({ order })
+        if (order.state === 'open') {
+            const user = await User.findById(order.userId)
+            let total = user.invested + order.amount
+            const invested = await User.findByIdAndUpdate({ id: order.userId }, { invested: total }, { new: true })
+            res.status(200).json({ order, invested: invested.invested })
+        } else {
+            res.status(200).json({ order })
+        }
     } catch (error) {
         console.log(error)
     }
