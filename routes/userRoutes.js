@@ -3,7 +3,7 @@ const { getUser, getUsers, deleteUser, updateUser } = require('../controllers/us
 const { isAdmin, verifyToken } = require('../middleware/authorize')
 
 router.get('/all', isAdmin, getUsers);
-router.get('/:id', isAdmin, getUser);
+router.get('/:id', verifyToken, getUser);
 router.patch('/:id', verifyToken, updateUser);
 router.delete('/:id', isAdmin, deleteUser);
 
