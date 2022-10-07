@@ -3,13 +3,22 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 const register = async (req, res, next) => {
-  const { firstName, lastName, middleName, email, bitcoinAddress, password, isAdmin } = req.body;
+  const { firstName, lastName, middleName, email, bitcoinAddress, referralCode, password, isAdmin } = req.body;
   try {
     const emailExist = await User.findOne({ email })
     if (emailExist) {
       res.status(400).json({ message: 'Email already exist.' })
     } else {
       const hashedPassword = await bcrypt.hash(password, 12)
+
+      //add referral code to user referrals
+      if (referralCode && referralCode !== '' && referralCode !== undefined && referralCode !== null) {
+        const refer = await User.findOne({ referralCode })
+        if (refer) {
+          await User.findByIdAndUpdate({ id: refer._id }, { $addToSet: { referrals: email } }, { new: true })
+        }
+        next();
+      }
 
       const user = await User.create({
         firstName,
@@ -49,6 +58,34 @@ const login = async (req, res, next) => {
   }
 };
 
+const forgetPassword = async (req, res, next) => {
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({ email })
+    if (!user) {
+      res.status(404).json({ message: "No user found" });
+    }
+    const password = user.firstName + user.phoneNumber;
+
+    const hashedPassword = await bcrypt.hash(password, 12)
+    await User.findByIdAndUpdate({ id: user._id }, { password: hashedPassword }, { new: true })
+
+    res.status(201).json({ message: "New password has been sent to your email" })
+  } catch (error) {
+    console.log(error);
+    next(new Error(error));
+  }
+}
+
+// const creditReferral = async (req, res) => {
+//   const { referralCode, email } = req.body;
+//   const user = await User.findOne({ referralCode })
+//   if (user) {
+//     await User.findByIdAndUpdate({ id: user._id }, { $addToSet: { referrals: email } }, { new: true })
+//   }
+//   return { message: 'Referral code added successfully' }
+// }
+
 const refreshToken = (req, res) => {
   try {
     const rf_token = req.body.refreshToken;
@@ -81,4 +118,4 @@ const createAccessToken = (userId, userRole, userEmail) => {
   return accessToken
 }
 
-module.exports = { register, login, logout, refreshToken }
+module.exports = { register, login, logout, refreshToken, forgetPassword }

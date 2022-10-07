@@ -21,7 +21,14 @@ const userSchema = Schema({
         required: true,
         unique: true
     },
-    bitcoinAddress: {
+    phoneNumber: {
+        type: Number,
+        unique: true
+    },
+    country: {
+        type: String,
+    },
+    usdtAddress: {
         type: String,
         required: true,
         unique: true
@@ -47,6 +54,13 @@ const userSchema = Schema({
         enum: ['client', 'admin'],
         default: 'client',
         required: true
+    },
+    referralCode: {
+        type: String,
+    },
+    referrals: {
+        type: Array,
+        default: []
     }
 }, { timestamps: true })
 
