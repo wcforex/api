@@ -53,6 +53,11 @@ const updateOrder = async (req, res) => {
             let total = user.invested + order.amount
             const invested = await User.findByIdAndUpdate(order.userId, { invested: total }, { new: true })
             res.status(200).json({ order, invested: invested.invested })
+        } else if (order.state === 'closed') {
+            const user = await User.findById(order.userId)
+            let profit = user.profit + order.profit;
+            const update = await User.findByIdAndUpdate(order.userId, { profit: profit }, { new: true })
+            res.status(200).json({ order, totalProfits: update })
         } else {
             res.status(200).json({ order })
         }

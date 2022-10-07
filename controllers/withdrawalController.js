@@ -28,7 +28,11 @@ const createWithdrawal = async (req, res) => {
             account,
             status
         });
-        res.status(201).json({ withdrawal })
+        if (withdrawal) {
+            let deduction = user.wallet - amount;
+            const updateUser = await User.findByIdAndUpdate(userId, { wallet: deduction }, { new: true })
+            res.status(201).json({ withdrawal, balance: updateUser.wallet })
+        }
     } catch (error) {
         res.status(400).json({ message: error })
     }
@@ -38,7 +42,14 @@ const updateWithdrawal = async (req, res) => {
     try {
         const id = req.params.id;
         const withdrawal = await Withdrawal.findByIdAndUpdate(id, req.body, { new: true })
-        res.status(200).json({ withdrawal })
+        if (withdrawal.status === 'paid') {
+            const user = await User.findById(withdrawal.userId)
+            let update = user.withdrawal + withdrawal.amount;
+            const updateUser = await User.findByIdAndUpdate(user._id, { withdrawal: update }, { new: true })
+            res.status(200).json({ withdrawal, totalWithdrawal: updateUser.withdrawal })
+        } else {
+            res.status(200).json({ withdrawal })
+        }
     } catch (error) {
         res.status(400).json({ message: error })
     }
