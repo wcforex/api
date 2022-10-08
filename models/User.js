@@ -22,7 +22,7 @@ const userSchema = Schema({
         unique: true
     },
     phoneNumber: {
-        type: Number,
+        type: String,
         unique: true
     },
     country: {

@@ -23,4 +23,4 @@ app.use('/api/v1/deposit', depositRoutes);
 app.use('/api/v1/withdrawal', withdrawalRoutes);
 app.use('/api/v1/payment-method', paymentMethodRoutes);
 
-app.listen(8200, () => console.log("Server running..."));
+app.listen(9220, () => console.log("Server running..."));
