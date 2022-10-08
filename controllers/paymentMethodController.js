@@ -42,7 +42,7 @@ const deletePaymentMethod = async (req, res) => {
     try {
         const id = req.params.id;
         await PaymentMethod.findByIdAndDelete(id)
-        res.status(200).json({ message: 'PaymentMethod deleted successfully' })
+        res.status(200).json({ message: 'Payment method deleted successfully' })
     } catch (error) {
         res.status(400).json({ message: error })
     }
