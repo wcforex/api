@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 const register = async (req, res, next) => {
-  const { firstName, lastName, middleName, email, phoneNumber, country, usdtAddress, referralCode, password, isAdmin } = req.body;
+  const { firstName, lastName, middleName, email, phoneNumber, country, usdtAddress, myCode, referralCode, password, isAdmin } = req.body;
   try {
     const emailExist = await User.findOne({ email })
     if (emailExist) {
@@ -28,6 +28,7 @@ const register = async (req, res, next) => {
         phoneNumber,
         country,
         usdtAddress,
+        myCode,
         password: hashedPassword,
         role: isAdmin && 'admin'
       });

@@ -70,6 +70,9 @@ const userSchema = Schema({
     referralCode: {
         type: String,
     },
+    myCode: {
+        type: String,
+    },
     referrals: {
         type: Array,
         default: []
