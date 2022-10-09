@@ -27,7 +27,7 @@ const packageSchema = new Schema({
     },
     interestRatePerMonth: {
         type: Number,
-        default:"",
+        default:0,
     },
     interestRate: {
         type: Number,
