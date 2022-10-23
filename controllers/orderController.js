@@ -82,9 +82,9 @@ const updateOrder = async (req, res) => {
             if (filt && filt.length === 1 && user.referralCode !== '') {
                 const finduser = await User.find({ myCode: user.referralCode })
                 if (finduser) {
-                    let bonus = order.profit * 0.10
-                    let amt = finduser.wallet + bonus
-                    await User.findByIdAndUpdate(finduser._id, { wallet: amt }, { new: true })
+                    let bonus = order.profit * 0.045 // 4.5% bonus on users first investments
+                    let amt = finduser.refwallet + bonus
+                    await User.findByIdAndUpdate(finduser._id, { refwallet: amt }, { new: true })
                 }
             }
 

@@ -41,6 +41,10 @@ const userSchema = Schema({
         type: Number,
         default: 0,
     },
+    refwallet: {
+        type: Number,
+        default: 0,
+    },
     withdrawal: {
         type: Number,
         default: 0,
