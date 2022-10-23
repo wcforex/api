@@ -12,7 +12,7 @@ const getPackage = async (req, res) => {
 }
 
 const createPackage = async (req, res) => {
-    const { name, maxDeposite, minDeposite, duration, interestRatePerDay, interestRatePerWeek, interestRatePerMonth, interestRate, status } = req.body;
+    const { name, maxDeposite, minDeposite, duration, interestRatePerDay, interestRate, status } = req.body;
     try {
 
         const package = await Package.create({
@@ -21,14 +21,11 @@ const createPackage = async (req, res) => {
             minDeposite,
             duration,
             interestRatePerDay,
-            interestRatePerWeek,
-            interestRatePerMonth,
             interestRate,
             status
         });
-        if (package) {
-            res.status(201).json({ package })
-        }
+
+        res.status(201).json({ package })
     } catch (error) {
         console.log(error)
     }
