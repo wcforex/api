@@ -66,6 +66,7 @@ const login = async (req, res, next) => {
     }
     const accessToken = jwt.sign({ id: user._id, role: user.role, email: user.email }, process.env.JWT_SECRET, { expiresIn: "12h" });
     const refreshToken = jwt.sign({ id: user._id, role: user.role, email: user.email }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "336h" });
+    delete user.password;
     res.status(200).json({ accessToken, user, refreshToken })
   } catch (err) {
     // res.status(401).json({data: null, error: err})
