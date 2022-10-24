@@ -13,7 +13,7 @@ const getWithdrawalByUser = async (req, res) => {
 }
 
 const createWithdrawal = async (req, res) => {
-    const { userId, userName, amount, paymentMethod, account, status } = req.body;
+    const { userId, userName, amount, paymentMethod, account, wallet, status } = req.body;
     try {
         const id = userId
         const user = await User.findById(id)
@@ -26,12 +26,17 @@ const createWithdrawal = async (req, res) => {
             amount,
             paymentMethod,
             account,
+            wallet,
             status
         });
-        if (withdrawal) {
+        if (withdrawal && withdrawal.wallet === "wallet") {
             let deduction = user.wallet - amount;
             const updateUser = await User.findByIdAndUpdate(userId, { wallet: deduction }, { new: true })
             res.status(201).json({ withdrawal, balance: updateUser.wallet })
+        } else if (withdrawal && withdrawal.wallet === "refwallet") {
+            let deduction = user.refwallet - amount;
+            const updateUser = await User.findByIdAndUpdate(userId, { refwallet: deduction }, { new: true })
+            res.status(201).json({ withdrawal, refbalance: updateUser.refwallet })
         }
     } catch (error) {
         res.status(400).json({ message: error })
