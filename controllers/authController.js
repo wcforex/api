@@ -8,48 +8,47 @@ const register = async (req, res, next) => {
     const emailExist = await User.findOne({ email })
     if (emailExist) {
       res.status(400).json({ message: 'Email already exist.' })
-    } else {
-      const hashedPassword = await bcrypt.hash(password, 12)
-
-      //add referral code to user referrals
-      if (referralCode && referralCode !== '' && referralCode !== undefined && referralCode !== null) {
-        const refer = await User.findOne({ myCode: referralCode })
-        if (refer) {
-          await User.findByIdAndUpdate({ id: refer._id }, { $addToSet: { referrals: email } }, { new: true })
-        }
-        next();
-      }
-
-      const num = 8;
-      const randomNameGenerator = num => {
-        let res = '';
-        for (let i = 0; i < num; i++) {
-          const random = Math.floor(Math.random() * 27);
-          res += String.fromCharCode(97 + random);
-        };
-        return res;
-      };
-      // console.log(randomNameGenerator(num));
-
-      const user = await User.create({
-        firstName,
-        lastName,
-        middleName,
-        email,
-        phoneNumber,
-        country,
-        usdtAddress,
-        myCode: randomNameGenerator(num),
-        referralCode,
-        password: hashedPassword,
-        role: isAdmin && 'admin'
-      });
-
-      res.status(201).json({ user });
     }
+    const hashedPassword = await bcrypt.hash(password, 12)
+
+    //add referral code to user referrals
+    if (referralCode && referralCode !== '') {
+      const refer = await User.find({ myCode: referralCode })
+      if (refer && refer !== []) {
+        await User.findByIdAndUpdate(refer[0]._id, { $addToSet: { referrals: email } }, { new: true })
+      }
+    }
+
+    const num = 8;
+    const randomNameGenerator = num => {
+      let res = '';
+      for (let i = 0; i < num; i++) {
+        const random = Math.floor(Math.random() * 27);
+        res += String.fromCharCode(97 + random);
+      };
+      return res;
+    };
+    // console.log(randomNameGenerator(num));
+
+    const user = await User.create({
+      firstName,
+      lastName,
+      middleName,
+      email,
+      phoneNumber,
+      country,
+      usdtAddress,
+      myCode: randomNameGenerator(num),
+      referralCode: referralCode ? referralCode : '',
+      password: hashedPassword,
+      role: isAdmin && 'admin'
+    });
+
+    res.status(201).json({ user });
+
   } catch (err) {
-    res.status(400).json(err)
-    // console.log(error)
+    // res.status(400).json(err)
+    console.error(err)
   }
 };
 
