@@ -12,12 +12,12 @@ const register = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(password, 12)
 
     //add referral code to user referrals
-    if (referralCode && referralCode !== '') {
-      const refer = await User.find({ myCode: referralCode })
-      if (refer && refer !== []) {
-        await User.findByIdAndUpdate(refer[0]._id, { $addToSet: { referrals: email } }, { new: true })
-      }
-    }
+    // if (referralCode && referralCode !== '') {
+    //   const refer = await User.find({ myCode: referralCode })
+    //   if (refer && refer !== []) {
+    //     await User.findByIdAndUpdate(refer[0]._id, { $addToSet: { referrals: email } }, { new: true })
+    //   }
+    // }
 
     const num = 8;
     const randomNameGenerator = num => {
