@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 const register = async (req, res, next) => {
-  const { firstName, lastName, middleName, email, phoneNumber, country, usdtAddress, myCode, referralCode, password, isAdmin } = req.body;
+  const { firstName, lastName, middleName, email, phoneNumber, country, usdtAddress, referralCode, password, isAdmin } = req.body;
   try {
     const emailExist = await User.findOne({ email })
     if (emailExist) {
@@ -13,7 +13,7 @@ const register = async (req, res, next) => {
 
       //add referral code to user referrals
       if (referralCode && referralCode !== '' && referralCode !== undefined && referralCode !== null) {
-        const refer = await User.findOne({ referralCode })
+        const refer = await User.findOne({ myCode: referralCode })
         if (refer) {
           await User.findByIdAndUpdate({ id: refer._id }, { $addToSet: { referrals: email } }, { new: true })
         }
@@ -45,7 +45,7 @@ const register = async (req, res, next) => {
         role: isAdmin && 'admin'
       });
 
-      res.status(201).json({ user })
+      res.status(201).json({ user });
     }
   } catch (err) {
     res.status(400).json(err)
